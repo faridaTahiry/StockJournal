@@ -5,3 +5,4 @@ __pycache__/   # Python bytecode cache
 venv/          # virtual environment
 node_modules/  # React dependencies
 *.db           # local database files
+dist/          # frontend build output

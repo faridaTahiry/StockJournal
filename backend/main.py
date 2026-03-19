@@ -6,8 +6,8 @@ from pydantic import BaseModel                        # for ChatRequest schema
 
 import models, schemas                               # our models and schemas
 from database import engine, get_db                  # DB engine and session dependency
-from stock import get_stock_price, validate_symbol   # our stock functions
 from agent import chat_with_agent                    # our agent function
+from stock import get_stock_price, validate_symbol, get_stock_history
 
 
 models.Base.metadata.create_all(bind= engine)
@@ -16,7 +16,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5174"],          # only allow requests from our frontend
+    allow_origins=["http://localhost:5173"],          # only allow requests from our frontend
     allow_methods=["*"],                             # allow all HTTP methods (GET, POST, etc.)
     allow_headers=["*"],                             # allow all headers
 )
@@ -87,3 +87,8 @@ def chat(request: ChatRequest, db: Session = Depends(get_db)):
     watchlist = db.query(models.WatchlistItem).all()                     # fetch user's watchlist from DB
     response = chat_with_agent(request.message, watchlist)               # send to agent with context
     return {"response": response}   
+
+
+@app.get("/stock/{symbol}/history")
+def get_history(symbol: str, period: str = "3mo", interval: str = "1d"):
+    return get_stock_history(symbol, period, interval)
