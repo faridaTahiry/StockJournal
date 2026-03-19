@@ -21,7 +21,11 @@ function StockCard({ symbol, onRemove }) {
   const isPositive = data && data.change_pct >= 0
 
   return (
-    <div className="stock-card-wrapper">
+    <div
+      className="stock-card-wrapper"
+      draggable
+      onDragStart={(e) => e.dataTransfer.setData('symbol', symbol)}
+    >
       <div className="stock-card" onClick={() => setShowChart(!showChart)}>  {/* toggle on click */}
         <div className="stock-info">
           <span className="stock-symbol">{symbol}</span>

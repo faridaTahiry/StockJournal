@@ -1,4 +1,4 @@
-.env           # never commit secrets
+*.env           # never commit secrets
 **/.env        # catch .env in subdirectories
 __pycache__/   # Python bytecode cache
 *.pyc          # compiled Python files
@@ -6,3 +6,6 @@ venv/          # virtual environment
 node_modules/  # React dependencies
 *.db           # local database files
 dist/          # frontend build output
+backend/.env
+frontend/.env
+venv/

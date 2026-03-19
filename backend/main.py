@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException   # FastAPI core — like [ApiController] in C#
 from starlette.middleware.cors import CORSMiddleware   # handles cross-origin requests (frontend talking to backend)
 from sqlalchemy.orm import Session                    # DB session type hint
-from typing import List                               # like List<T> in C#
+from typing import List, Optional                               # like List<T> in C#
 from pydantic import BaseModel                        # for ChatRequest schema
 
 import models, schemas                               # our models and schemas
@@ -81,11 +81,12 @@ def delete_trade(trade_id: int, db: Session = Depends(get_db)):
 
 class ChatRequest(BaseModel):                                            # simple schema for chat request
     message: str                                                         # the user's message
+    focused_symbol: Optional[str] = None                                    # optional focused symbol from drag and drop
 
 @app.post("/agent/chat")                                                 # like [HttpPost] in C#
 def chat(request: ChatRequest, db: Session = Depends(get_db)):
     watchlist = db.query(models.WatchlistItem).all()                     # fetch user's watchlist from DB
-    response = chat_with_agent(request.message, watchlist)               # send to agent with context
+    response = chat_with_agent(request.message, watchlist, request.focused_symbol)  # send focused symbol to agent
     return {"response": response}   
 
 
