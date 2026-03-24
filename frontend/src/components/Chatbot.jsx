@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
-function Chatbot({ watchlist }) {
+function Chatbot() {
   const [messages, setMessages] = useState([
     { role: 'assistant', text: 'Hi! I can help you analyze your watchlist. Ask me anything, or drag a stock here to focus on it.' }
   ])

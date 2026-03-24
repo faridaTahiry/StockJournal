@@ -10,7 +10,6 @@ function StockChart({symbol}){
     const [mode, setMode] = useState('3mo')                                   // active button: '1d', '7d', '1mo', '3mo'
 
     const fetchData = (sym, period, interval) => {
-        setLoading(true)
         fetch(`${API_URL}/stock/${sym}/history?period=${period}&interval=${interval}`)
           .then(res => res.json())
           .then(data => setData(data))

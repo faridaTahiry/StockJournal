@@ -10,7 +10,7 @@ function Watchlist({ watchlist, setWatchlist }) {
     fetch(`${API_URL}/watchlist`)
       .then(res => res.json())
       .then(data => setWatchlist(data))
-  }, [])
+  }, [setWatchlist])
 
   const removeStock = (symbol) => {
     fetch(`${API_URL}/watchlist/${symbol}`, { method: 'DELETE' })
